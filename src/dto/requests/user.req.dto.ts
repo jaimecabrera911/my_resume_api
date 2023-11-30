@@ -3,11 +3,11 @@ import { BasicInformationReqDto } from './basic-information.req.dto';
 
 export class UserReqDto {
   @ApiProperty()
-  username?: string;
+  username: string;
   @ApiProperty()
-  password?: string;
+  password: string;
   @ApiProperty()
-  isActive?: boolean;
+  isActive: boolean;
   @ApiProperty({ type: BasicInformationReqDto })
   basicInformation: BasicInformationReqDto;
 }

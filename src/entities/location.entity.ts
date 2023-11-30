@@ -1,5 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { BasicInformationEntity } from './basic-info.entity';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'locations' })
 export class LocationEntity {
@@ -14,11 +13,4 @@ export class LocationEntity {
 
   @Column()
   city?: string;
-
-  @OneToMany(
-    () => BasicInformationEntity,
-    (basicsInformation) => basicsInformation.location,
-    { cascade: true },
-  )
-  basicsInformation?: BasicInformationEntity[];
 }

@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToOne,
+  JoinColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { BasicInformationEntity } from './basic-info.entity';
 
 @Entity({ name: 'users' })
@@ -11,9 +17,7 @@ export class UserEntity {
   password?: string;
   @Column({ default: true })
   isActive?: boolean;
-  @ManyToOne(
-    () => BasicInformationEntity,
-    (basicInformation) => basicInformation.users,
-  )
+  @OneToOne(() => BasicInformationEntity, { cascade: true })
+  @JoinColumn()
   basicInformation?: BasicInformationEntity;
 }

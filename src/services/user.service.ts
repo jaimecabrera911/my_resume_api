@@ -2,9 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../entities/user.entity';
 import { Repository } from 'typeorm';
-import { UserReqDto } from '../dto/user.req.dto';
+import { UserReqDto } from '../dto/requests/user.req.dto';
 import { LocationEntity } from '../entities/location.entity';
 import { BasicInformationEntity } from '../entities/basic-info.entity';
+import { assign, omit } from 'lodash';
+import { UserMapper } from '../mappers/user.mapper';
 
 @Injectable()
 export class UserService {
@@ -21,27 +23,30 @@ export class UserService {
     const basicInfo = userReqDto.basicInformation;
     const location: Partial<LocationEntity> = { ...basicInfo.location };
 
-    const locationEntity = await this.locationEntityRepository.save(location);
+    const locationEntity = await this.locationEntityRepository.create(location);
 
     const basicInformation: Partial<BasicInformationEntity> = {
       ...basicInfo,
       location: locationEntity,
     };
 
-    const basicInformationEntity: Partial<BasicInformationEntity> =
-      await this.basicInformationRepository.save(basicInformation);
+    const basicInformationEntity: BasicInformationEntity =
+      await this.basicInformationRepository.create(basicInformation);
 
-    const user: Partial<UserEntity> = {
+    const user: UserEntity = {
       username: userReqDto.username,
       password: userReqDto.password,
       isActive: true,
-      basicInformation: basicInformationEntity,
+      basicInformation: { ...basicInformationEntity },
     };
     const userEntity = this.userRepository.create(user);
     return this.userRepository.save(userEntity);
   }
 
   async getUsers() {
-    return this.userRepository.find();
+    const usersEntity = await this.userRepository.find({
+      relations: ['basicInformation', 'basicInformation.location'],
+    });
+    return usersEntity.map((userEntity) => UserMapper.toResDto(userEntity));
   }
 }

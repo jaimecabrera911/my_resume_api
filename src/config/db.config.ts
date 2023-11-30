@@ -4,7 +4,7 @@ import { BasicInformationEntity } from '../entities/basic-info.entity';
 import { LocationEntity } from '../entities/location.entity';
 import * as process from 'process';
 
-const dbEnv = {
+const dbEnvs = {
   username: process.env.DB_USERNAME || 'root',
   password: process.env.DB_PASSWORD || 'root',
   host: process.env.DB_HOST || 'localhost',
@@ -19,7 +19,7 @@ export const dbEntities = TypeOrmModule.forFeature([
 ]);
 export const dbConfig = TypeOrmModule.forRoot({
   type: 'postgres',
-  url: `postgres://${dbEnv.username}:${dbEnv.password}@${dbEnv.host}:${dbEnv.port}/${dbEnv.dbName}?sslmode=require`,
+  url: `postgres://${dbEnvs.username}:${dbEnvs.password}@${dbEnvs.host}:${dbEnvs.port}/${dbEnvs.dbName}?sslmode=require`,
   entities: [UserEntity, BasicInformationEntity, LocationEntity],
   autoLoadEntities: true,
   synchronize: true,

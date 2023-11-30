@@ -1,11 +1,10 @@
 import {
   Column,
   Entity,
-  ManyToOne,
-  OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
+  JoinColumn,
 } from 'typeorm';
-import { UserEntity } from './user.entity';
 import { LocationEntity } from './location.entity';
 
 @Entity({ name: 'basic_information' })
@@ -46,9 +45,7 @@ export class BasicInformationEntity {
   @Column()
   email?: string;
 
-  @OneToMany(() => UserEntity, (user) => user.basicInformation)
-  users?: UserEntity[];
-
-  @ManyToOne(() => LocationEntity, (location) => location.basicsInformation)
+  @OneToOne(() => LocationEntity, { cascade: true })
+  @JoinColumn()
   location?: LocationEntity;
 }
