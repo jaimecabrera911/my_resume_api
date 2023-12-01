@@ -1,11 +1,13 @@
 import {
   Column,
   Entity,
-  OneToOne,
   JoinColumn,
+  OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { BasicInformationEntity } from './basic-info.entity';
+import { ResumeEntity } from './resume.entity';
 
 @Entity({ name: 'users' })
 export class UserEntity {
@@ -20,4 +22,6 @@ export class UserEntity {
   @OneToOne(() => BasicInformationEntity, { cascade: true })
   @JoinColumn()
   basicInformation?: BasicInformationEntity;
+  @OneToMany(() => ResumeEntity, (resume) => resume.user)
+  resumes?: ResumeEntity[];
 }

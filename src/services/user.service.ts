@@ -5,7 +5,6 @@ import { Repository } from 'typeorm';
 import { UserReqDto } from '../dto/requests/user.req.dto';
 import { LocationEntity } from '../entities/location.entity';
 import { BasicInformationEntity } from '../entities/basic-info.entity';
-import { assign, omit } from 'lodash';
 import { UserMapper } from '../mappers/user.mapper';
 
 @Injectable()
@@ -20,26 +19,7 @@ export class UserService {
   ) {}
 
   async saveUser(userReqDto: UserReqDto) {
-    const basicInfo = userReqDto.basicInformation;
-    const location: Partial<LocationEntity> = { ...basicInfo.location };
-
-    const locationEntity = await this.locationEntityRepository.create(location);
-
-    const basicInformation: Partial<BasicInformationEntity> = {
-      ...basicInfo,
-      location: locationEntity,
-    };
-
-    const basicInformationEntity: BasicInformationEntity =
-      await this.basicInformationRepository.create(basicInformation);
-
-    const user: UserEntity = {
-      username: userReqDto.username,
-      password: userReqDto.password,
-      isActive: true,
-      basicInformation: { ...basicInformationEntity },
-    };
-    const userEntity = this.userRepository.create(user);
+    let userEntity = this.userRepository.create(userReqDto);
     return this.userRepository.save(userEntity);
   }
 
