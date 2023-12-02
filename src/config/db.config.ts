@@ -5,6 +5,11 @@ import { LocationEntity } from '../entities/location.entity';
 import * as process from 'process';
 import { ResumeEntity } from '../entities/resume.entity';
 import { EducationEntity } from '../entities/education.entity';
+import { ExperienceEntity } from '../entities/experience.entity';
+import { ProjectEntity } from '../entities/project.entity';
+import { SkillEntity } from '../entities/skill.entity';
+import { AwardEntity } from '../entities/award.entity';
+import { CertificateEntity } from '../entities/certificate.entity';
 
 const dbEnvs = {
   username: process.env.DB_USERNAME || 'root',
@@ -20,6 +25,11 @@ const entities = [
   BasicInformationEntity,
   LocationEntity,
   EducationEntity,
+  ExperienceEntity,
+  ProjectEntity,
+  SkillEntity,
+  AwardEntity,
+  CertificateEntity
 ];
 export const dbEntities = TypeOrmModule.forFeature(entities);
 export const dbConfig = TypeOrmModule.forRoot({

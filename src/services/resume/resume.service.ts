@@ -4,7 +4,6 @@ import { ResumeEntity } from '../../entities/resume.entity';
 import { Repository } from 'typeorm';
 import { ResumeReqDTo } from '../../dto/requests/resume.req.dto';
 import { UserEntity } from '../../entities/user.entity';
-import { EducationEntity } from '../../entities/education.entity';
 
 @Injectable()
 export class ResumeService {
@@ -13,12 +12,10 @@ export class ResumeService {
     private readonly resumeRepository: Repository<ResumeEntity>,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-    @InjectRepository(EducationEntity)
-    private readonly educationRepository: Repository<EducationEntity>,
   ) {}
 
   public async saveResume(resumeReqDto: ResumeReqDTo, username: string) {
-    const resumeEntity =  this.resumeRepository.create(resumeReqDto);
+    const resumeEntity = this.resumeRepository.create(resumeReqDto);
     resumeEntity.user = await this.userRepository.findOneBy({
       username: username,
     });
