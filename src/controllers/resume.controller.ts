@@ -7,8 +7,8 @@ export class ResumeController {
   constructor(private readonly resumeService: ResumeService) {}
 
   @Get()
-  async getResumes() {
-    return;
+  async getResumes(@Headers('User') username: string) {
+    return this.resumeService.findResumeByUser(username);
   }
 
   @Post()

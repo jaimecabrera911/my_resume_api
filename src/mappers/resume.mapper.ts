@@ -6,4 +6,5 @@ export class ResumeMapper {
   static toEntity = (resumeReqDto: ResumeReqDTo): Partial<ResumeEntity> => {
     return assign(new ResumeEntity(), resumeReqDto);
   };
+
 }

@@ -10,6 +10,9 @@ import { ProjectEntity } from '../entities/project.entity';
 import { SkillEntity } from '../entities/skill.entity';
 import { AwardEntity } from '../entities/award.entity';
 import { CertificateEntity } from '../entities/certificate.entity';
+import { LanguageEntity } from '../entities/language.entity';
+import { LevelEntity } from '../entities/level.entity';
+import { LanguageLevelEntity } from '../entities/language-leverl.entity';
 
 const dbEnvs = {
   username: process.env.DB_USERNAME || 'root',
@@ -29,7 +32,10 @@ const entities = [
   ProjectEntity,
   SkillEntity,
   AwardEntity,
-  CertificateEntity
+  CertificateEntity,
+  LanguageEntity,
+  LevelEntity,
+  LanguageLevelEntity,
 ];
 export const dbEntities = TypeOrmModule.forFeature(entities);
 export const dbConfig = TypeOrmModule.forRoot({
@@ -38,4 +44,5 @@ export const dbConfig = TypeOrmModule.forRoot({
   entities: entities,
   autoLoadEntities: true,
   synchronize: true,
+  relationLoadStrategy: 'join',
 });
